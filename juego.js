@@ -84,6 +84,24 @@ console.log("----- Juego de la vida Inicializado -----");
             dibujarCelula(celulaTemp);
         }
     });
+
+    //Comenzar el juego con las células generadas
+
+    btnComenzar.addEventListener('click', (e) => {
+        if (estado.activo) return;
+
+        estado.process = setTimeout(function run() {
+            correr();
+
+            if (estado.celulas_vivas.anteriores.length < 1) {
+                estado.activo = false;
+                return;
+            }
+
+            estado.activo = true;
+            estado.process = setTimeout(run, 50);
+        }, 50);
+    });
     
 
 
