@@ -1,0 +1,1 @@
+console.log("----- Juego de la vida Inicializado -----");
