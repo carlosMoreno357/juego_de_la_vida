@@ -140,6 +140,33 @@ console.log("----- Juego de la vida Inicializado -----");
     }
 
 
+    function correr() {
+        estado.celulas_vivas.anteriores = estado.celulas_vivas.actuales.slice();
+        var i, posicion_a_revisar, s;
+        var celulas_a_revisar = estado.celulas_vivas.anteriores.slice();
+
+        for (i = 0, s = estado.celulas_vivas.anteriores.length; i < s; i++) {
+            celulas_a_revisar = celulas_a_revisar.concat(
+                obtenerPosVecinos(
+                    strToPos(estado.celulas_vivas.anteriores[i])
+                ).filter((v) => {
+                    return celulas_a_revisar.indexOf(v) < 0;
+                })
+            );
+        }
+
+        for (i = 0, s = celulas_a_revisar.length; i < s; i++) {
+            posicion_a_revisar = strToPos(celulas_a_revisar[i]);
+            var newStateOfCell = setEstadoCelula(posicion_a_revisar);
+           
+            if (typeof newStateOfCell === 'undefined') continue;
+           
+            if (newStateOfCell > 0) dibujarCelula(posicion_a_revisar);
+            else limpiarCelula(posicion_a_revisar);
+        }
+
+    }
+
     //// termina manejo de posiciones
 
 
