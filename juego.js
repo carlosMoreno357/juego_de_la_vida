@@ -25,18 +25,18 @@ console.log("----- Juego de la vida Inicializado -----");
 
 
     //Funciones de tablero y dibujo
-    function getTamTablero() {
+    getTamTablero = () => {
         return {
             w: tablero.width,
             h: tablero.height
         };
     }
 
-    function posToStr(pos) {
+    posToStr = (pos) => {
         return pos.x + ',' + pos.y;
     }
 
-    function strToPos(pos) {
+    strToPos = (pos) => {
         var arrPos = pos.split(',');
         return {
             x: parseInt(arrPos[0]),
@@ -44,7 +44,7 @@ console.log("----- Juego de la vida Inicializado -----");
         };
     }
 
-    function dibujarCelula(pos) {
+    dibujarCelula = (pos) => {
         var strPos = posToStr(pos);
         tableroContexto.fillRect(pos.x, pos.y, tam_celula, tam_celula);
         if (estado.celulas_vivas.actuales.indexOf(strPos) < 0) {
@@ -52,7 +52,7 @@ console.log("----- Juego de la vida Inicializado -----");
         }
     }
 
-    function limpiarCelula(pos) {
+     limpiarCelula = (pos) => {
         tableroContexto.clearRect(pos.x, pos.y, tam_celula, tam_celula);
         estado.celulas_vivas.actuales.splice(
             estado.celulas_vivas.actuales.indexOf(posToStr(pos)),
@@ -129,16 +129,8 @@ console.log("----- Juego de la vida Inicializado -----");
     //TERMINAN ACCIONES
 
     // Manejo de posiciones de las céulas
-    function obtenerPosicion(e, elem) {
-        var pos = elem.getBoundingClientRect();
-        return {
-            x: Math.floor((e.clientX - pos.left) / tam_celula) * tam_celula,
-            y: Math.floor((e.clientY - pos.top) / tam_celula) * tam_celula
-        };
-    }
 
-
-    function obtenerPosVecinos(pos) {
+    obtenerPosVecinos = (pos) => {
         var tamTablero = getTamTablero();
         var obtPosVecino = function(x, y, vecino) {
             return ((vecino[0] * tam_celula) + x) + ',' + ((vecino[1] * tam_celula) + y);
@@ -163,7 +155,7 @@ console.log("----- Juego de la vida Inicializado -----");
     }
 
 
-    function correr() {
+     correr = () => {
         estado.celulas_vivas.anteriores = estado.celulas_vivas.actuales.slice();
         var i, posicion_a_revisar, s;
         var celulas_a_revisar = estado.celulas_vivas.anteriores.slice();
@@ -195,29 +187,24 @@ console.log("----- Juego de la vida Inicializado -----");
 
 
     //Estado de las células
-    function setEstadoCelula(pos) {
-        var neighborsAlive = getNeighborsAlive(
+    setEstadoCelula = (pos) => {
+        var vecinosVivos = getNeighborsAlive(
             obtenerPosVecinos(pos)
         );
-        var stateOfCell = obtenerEstadoPrevioCelula(pos);
-        if (stateOfCell > 0) {
-            if (neighborsAlive < 2 || neighborsAlive > 3) {
+        var estadoCelula = obtenerEstadoPrevioCelula(pos);
+        if (estadoCelula > 0) {
+            if (vecinosVivos < 2 || vecinosVivos > 3) {
                 return 0;
             }
         }
-        if (stateOfCell === 0) {
-            if (neighborsAlive === 3) {
+        if (estadoCelula === 0) {
+            if (vecinosVivos === 3) {
                 return 1;
             }
         }
     }
-    function obtenerEstadoCelula(pos) {
-        if (estado.celulas_vivas.actuales.indexOf(posToStr(pos)) > -1) {
-            return 1;
-        }
-        return 0;
-    }
-    function obtenerEstadoPrevioCelula(pos, str) {
+  
+   obtenerEstadoPrevioCelula = (pos, str) => {
         if (str === true) {
             if (estado.celulas_vivas.anteriores.indexOf(pos) > -1) {
                 return 1;
@@ -235,7 +222,7 @@ console.log("----- Juego de la vida Inicializado -----");
 
 
     /////Revisión de células adyacentes////
-      function getNeighborsAlive(coords) {
+      getNeighborsAlive = (coords) => {
         return coords.filter(function(v) {
             return obtenerEstadoPrevioCelula(v, true) > 0;
         }).length;
