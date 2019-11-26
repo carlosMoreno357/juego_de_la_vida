@@ -1,6 +1,12 @@
    //Generar células de manera aleatoria////
     // Puede ser necesario generar más de una vez, con el fin de que no se encuentren todas
     // separadas y mueranm
+    var btnGenerar = document.querySelector('#generar');
+    var btnComenzar = document.querySelector('#comenzar');
+    var btnParar = document.querySelector('#parar');
+    var btnLimpiar = document.querySelector('#limpiar');
+    
+    
     btnGenerar.addEventListener('click', (e) => {
         var tamTablero = getTamTablero();
         if (estado.activo) return;

@@ -97,6 +97,35 @@ console.log("----- Juego de la vida Inicializado -----");
     }
 
 
+    function obtenerPosVecinos(pos) {
+        var tamTablero = getTamTablero();
+        var obtPosVecino = function(x, y, vecino) {
+            return ((vecino[0] * tam_celula) + x) + ',' + ((vecino[1] * tam_celula) + y);
+        };
+
+        var vecinos =[
+            [-1, -1],
+            [0, -1],
+            [1, -1],
+            [-1, 0],
+            [1, 0],
+            [-1, 1],
+            [0, 1],
+            [1, 1]
+        ];
+
+        var i = vecinos.length;
+        while (i--) {
+            vecinos[i] = obtPosVecino(pos.x, pos.y, vecinos[i]);
+        }
+        return vecinos;
+    }
+
+
+    //// termina manejo de posiciones
+
+
+
     //Estado de las células
     function setEstadoCelula(pos) {
         var neighborsAlive = getNeighborsAlive(
@@ -132,5 +161,17 @@ console.log("----- Juego de la vida Inicializado -----");
         }
         return 0;
     }
+
+
+    ////////////////////// Termina revisión de estado////////////
+
+
+    /////Revisión de células adyacentes////
+      function getNeighborsAlive(coords) {
+        return coords.filter(function(v) {
+            return obtenerEstadoPrevioCelula(v, true) > 0;
+        }).length;
+    }
+
 
 }();
