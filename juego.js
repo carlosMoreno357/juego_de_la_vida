@@ -52,8 +52,20 @@ console.log("----- Juego de la vida Inicializado -----");
         }
     }
 
+    function limpiarCelula(pos) {
+        tableroContexto.clearRect(pos.x, pos.y, tam_celula, tam_celula);
+        estado.celulas_vivas.actuales.splice(
+            estado.celulas_vivas.actuales.indexOf(posToStr(pos)),
+            1
+        );
+    }
+
     ///////////// Terminan funciones de tablero y dibujo //////////////
 
+
+    //Generar células de manera aleatoria////
+    // Puede ser necesario generar más de una vez, con el fin de que no se encuentren todas
+    // separadas y mueranm
     btnGenerar.addEventListener('click', (e) => {
         var tamTablero = getTamTablero();
         if (estado.activo) return;
@@ -73,4 +85,52 @@ console.log("----- Juego de la vida Inicializado -----");
         }
     });
     
+
+
+    // Manejo de posiciones de las céulas
+    function obtenerPosicion(e, elem) {
+        var pos = elem.getBoundingClientRect();
+        return {
+            x: Math.floor((e.clientX - pos.left) / tam_celula) * tam_celula,
+            y: Math.floor((e.clientY - pos.top) / tam_celula) * tam_celula
+        };
+    }
+
+
+    //Estado de las células
+    function setEstadoCelula(pos) {
+        var neighborsAlive = getNeighborsAlive(
+            obtenerPosVecinos(pos)
+        );
+        var stateOfCell = obtenerEstadoPrevioCelula(pos);
+        if (stateOfCell > 0) {
+            if (neighborsAlive < 2 || neighborsAlive > 3) {
+                return 0;
+            }
+        }
+        if (stateOfCell === 0) {
+            if (neighborsAlive === 3) {
+                return 1;
+            }
+        }
+    }
+    function obtenerEstadoCelula(pos) {
+        if (estado.celulas_vivas.actuales.indexOf(posToStr(pos)) > -1) {
+            return 1;
+        }
+        return 0;
+    }
+    function obtenerEstadoPrevioCelula(pos, str) {
+        if (str === true) {
+            if (estado.celulas_vivas.anteriores.indexOf(pos) > -1) {
+                return 1;
+            }
+            return 0;
+        }
+        if (estado.celulas_vivas.anteriores.indexOf(posToStr(pos)) > -1) {
+            return 1;
+        }
+        return 0;
+    }
+
 }();
