@@ -85,6 +85,9 @@ console.log("----- Juego de la vida Inicializado -----");
         }
     });
 
+
+    //////////////////////////////////////////////////////
+    //ACCIONES
     //Comenzar el juego con las células generadas
 
     btnComenzar.addEventListener('click', (e) => {
@@ -103,7 +106,27 @@ console.log("----- Juego de la vida Inicializado -----");
         }, 50);
     });
     
+    
+    btnParar.addEventListener('click', (e) => {
+        if (estado.activo) {
+            clearTimeout(estado.process);
+            estado.activo = false;
+        }
+    });
 
+
+    btnLimpiar.addEventListener('click', (e) => {
+        var tamTablero = getTamTablero();
+        if (estado.activo) {
+            return;
+        }
+        tableroContexto.clearRect(0, 0, tamTablero.w, tamTablero.h);
+        estado.celulas_vivas.anteriores = [];
+        estado.celulas_vivas.actuales = [];
+    });
+
+
+    //TERMINAN ACCIONES
 
     // Manejo de posiciones de las céulas
     function obtenerPosicion(e, elem) {
